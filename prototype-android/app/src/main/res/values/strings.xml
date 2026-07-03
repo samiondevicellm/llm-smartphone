@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LLM Chat PFE</string>
+    <string name="hint_input">Posez votre question…</string>
+    <string name="btn_send">Envoyer</string>
+    <string name="status_initializing">Initialisation de Gemini Nano…</string>
+    <string name="action_clear">Effacer</string>
+</resources>

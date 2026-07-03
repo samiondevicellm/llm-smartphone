@@ -1,0 +1,15 @@
+# Prototype CLI — LLM Embarqué sur Smartphone
+# Testé avec Python 3.9, 3.10, 3.11
+
+# Inférence LLM locale (llama.cpp bindings Python)
+llama-cpp-python>=0.2.90
+
+# Mesures de performance
+psutil>=5.9.0
+
+# Interface CLI améliorée
+rich>=13.7.0
+prompt_toolkit>=3.0.43
+
+# Optionnel : export des résultats
+pandas>=2.0.0
