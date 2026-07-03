@@ -84,27 +84,20 @@ class LlmViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _state.value = InferenceState.Generating("")
             try {
-                withContext(Dispatchers.IO) {
-                    inference.generateResponseAsync(buildPrompt(userInput)) { partial, done ->
-                        partial?.let {
-                            responseBuilder.append(it)
-                            tokenCount++
-                            _state.value = InferenceState.Generating(responseBuilder.toString())
-                        }
-                        if (done) {
-                            val latencyMs = System.currentTimeMillis() - startTime
-                            val tps = if (latencyMs > 0) tokenCount * 1000.0 / latencyMs else 0.0
-                            _lastMetrics.value = InferenceMetrics(latencyMs, tokenCount, tps, userInput.length)
-                            _messages.value = _messages.value + ChatMessage(
-                                content = responseBuilder.toString(),
-                                isUser = false,
-                                latencyMs = latencyMs,
-                                tokensGenerated = tokenCount,
-                            )
-                            _state.value = InferenceState.ModelReady
-                        }
-                    }
-                }
+               withContext(Dispatchers.IO) {
+    val response = inference.generateResponse(buildPrompt(userInput))
+    val latencyMs = System.currentTimeMillis() - startTime
+    val estimatedTokens = response.trim().split("\\s+".toRegex()).size
+    val tps = if (latencyMs > 0) estimatedTokens * 1000.0 / latencyMs else 0.0
+    _lastMetrics.value = InferenceMetrics(latencyMs, estimatedTokens, tps, userInput.length)
+    _messages.value = _messages.value + ChatMessage(
+        content = response,
+        isUser = false,
+        latencyMs = latencyMs,
+        tokensGenerated = estimatedTokens,
+    )
+    _state.value = InferenceState.ModelReady
+}
             } catch (e: Exception) {
                 _state.value = InferenceState.Error(e.message ?: "Erreur inconnue")
             }
