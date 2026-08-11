@@ -680,7 +680,7 @@ python benchmark.py --model models/gemma-2-2b-it-q4_k_m.gguf --runs 5
 
 ### 3.2.1 Mise en perspective avec la littérature récente
 
-**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat central : le GPU du S24 Ultra subit un arrêt complet de l'inférence lors des sessions prolongées, contraignant au repli sur CPU — phénomène directement comparable au throttling thermique du Galaxy S26 (Snapdragon 8 Elite) mesuré dans ce PFE (−17,3 % en section 3.3). Les deux flagships Snapdragon partagent donc une vulnérabilité thermique sous charge soutenue qui n'est pas observée sur les appareils milieu de gamme testés (Snapdragon 730/778G, Dimensity 6400, Exynos 1280).
+**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat central : le GPU du S24 Ultra subit un arrêt complet de l'inférence lors des sessions prolongées, contraignant au repli sur CPU — phénomène directement comparable au throttling thermique du Galaxy S26 Ultra (Snapdragon 8 Elite) mesuré dans ce PFE (−17,3 % en section 3.3). Les deux flagships Snapdragon partagent donc une vulnérabilité thermique sous charge soutenue qui n'est pas observée sur les appareils milieu de gamme testés (Snapdragon 730/778G, Dimensity 6400, Exynos 1280).
 
 **PalmBench** [22] (Li et al., 2024) adopte une méthodologie similaire au protocole de ce PFE — llama.cpp, mesures prefill/decode répétées, charge soutenue — mais sur appareils Apple et Google Pixel uniquement. L'Exynos 1380 (Galaxy A54) apparaît dans le tableau de référence de Xu et al. [19] avec −25 % de throttling sur 5 min avec Gemma 2 2B ; nos mesures sur Exynos 1330 (Galaxy A16) et Exynos 1280 (Galaxy A26) avec Llama 3.2 1B Q4_K_M (modèle plus léger) montrent respectivement −19,1 % et aucun throttling — cohérent avec l'impact de la taille de modèle sur la charge thermique.
 
@@ -701,22 +701,22 @@ python benchmark.py --model models/gemma-2-2b-it-q4_k_m.gguf --runs 5
 | Snapdragon 778G (6nm) | Galaxy A73 | UserLAnd | 7333 Mo | 58,07 ± 14,09 tok/s | 13,19 ± 0,13 tok/s | 0,0 % (aucun throttling) | −2 % / 5 min |
 | Snapdragon 778G (6nm) | Galaxy A73 | Termux natif | 7333 Mo | 79,69 ± 1,07 tok/s | 13,36 ± 0,80 tok/s | −104,8 % (artefact governor) | <1 % / 5 min |
 | Exynos 1330 (5nm) | Galaxy A16 | Termux natif | 5452 Mo | 57,99 ± 7,77 tok/s | 14,00 ± 0,42 tok/s | **−19,1 % (throttling thermique réel)** | −3 % / 12 min |
-| Snapdragon 8 Elite (3nm) | Galaxy S26 | Termux natif | 10240 Mo | 235,65 ± 11,26 tok/s | 46,68 ± 14,40 tok/s | **−17,3 % (throttling thermique réel)** | −2 % / 12 min |
+| Snapdragon 8 Elite (3nm) | Galaxy S26 Ultra | Termux natif | 10240 Mo | 235,65 ± 11,26 tok/s | 46,68 ± 14,40 tok/s | **−17,3 % (throttling thermique réel)** | −2 % / 12 min |
 
 > Source : mesures propres via `benchmark_complet.sh`, juin–juillet 2026.
 
 **Points clés :**
-- Le throttling thermique réel n'est confirmé que sur **Galaxy A16 (−19,1 %)** et **Galaxy S26 (−17,3 %)** — les autres appareils restent dans l'enveloppe thermique sur 12 minutes.
+- Le throttling thermique réel n'est confirmé que sur **Galaxy A16 (−19,1 %)** et **Galaxy S26 Ultra (−17,3 %)** — les autres appareils restent dans l'enveloppe thermique sur 12 minutes.
 - Les valeurs négatives extrêmes (−100 %, −104 %) sont des **artefacts du governor schedutil Android**, pas du throttling thermique (détaillés dans la section 3.8).
 - Tous les appareils milieu de gamme atteignent **11–14 tok/s en decode** — dans la zone de fluidité conversationnelle.
 
 ---
 
-## 3.4 Résultats Google on-device — Gemma 4 E2B-it via LiteRT (Galaxy S26)
+## 3.4 Résultats Google on-device — Gemma 4 E2B-it via LiteRT (Galaxy S26 Ultra)
 
-> Le benchmark Google on-device a été réalisé via **AI Edge Gallery** (application officielle Google, Play Store), qui expose Gemma 4 E2B-it au format LiteRT quantifié (INT4, ~2,6 Go). Le modèle "via AICore" (Gemini Nano) s'est avéré indisponible sur le Galaxy S26 testé — AICore non initialisé.
+> Le benchmark Google on-device a été réalisé via **AI Edge Gallery** (application officielle Google, Play Store), qui expose Gemma 4 E2B-it au format LiteRT quantifié (INT4, ~2,6 Go). Le modèle "via AICore" (Gemini Nano) s'est avéré indisponible sur le Galaxy S26 Ultra testé — AICore non initialisé.
 
-**Protocole :** Galaxy S26 (Snapdragon 8 Elite, 3nm, 12 Go RAM) · Gemma 4 E2B-it LiteRT INT4 · Prompt : "Explique-moi le concept d'intelligence artificielle en 3 phrases."
+**Protocole :** Galaxy S26 Ultra (Snapdragon 8 Elite, 3nm, 12 Go RAM) · Gemma 4 E2B-it LiteRT INT4 · Prompt : "Explique-moi le concept d'intelligence artificielle en 3 phrases."
 
 | Run | Latence totale |
 |-----|---------------|
@@ -743,7 +743,7 @@ Débit estimé : ~70 tokens (3 phrases) → **≈ 11–12 tok/s**.
 
 ## 3.5 Benchmark Gemini 2.0 Flash API (cloud) vs on-device
 
-Mesure de la latence de l'API cloud Gemini 2.0 Flash depuis Termux sur le Galaxy S26 (connexion Wi-Fi), même prompt que les tests on-device.
+Mesure de la latence de l'API cloud Gemini 2.0 Flash depuis Termux sur le Galaxy S26 Ultra (connexion Wi-Fi), même prompt que les tests on-device.
 
 | Run | Temps total |
 |-----|------------|
@@ -752,7 +752,7 @@ Mesure de la latence de l'API cloud Gemini 2.0 Flash depuis Termux sur le Galaxy
 | 3 | 0,298 s |
 | **Moyenne warm (runs 2–3)** | **0,292 s** |
 
-**Tableau de synthèse : on-device vs cloud (Galaxy S26, même prompt)**
+**Tableau de synthèse : on-device vs cloud (Galaxy S26 Ultra, même prompt)**
 
 | Solution | Type | Modèle | Latence (réponse courte) |
 |---|---|---|---|
@@ -816,7 +816,7 @@ L'API cloud est **~20× plus rapide** que la solution LiteRT et **~5–7× plus 
 | Snapdragon 730 (8nm) | Galaxy A71 (Termux) | −2 % | ~12 min |
 | Snapdragon 778G (6nm) | Galaxy A73 (Termux) | −4 % | ~12 min |
 | Exynos 1330 (5nm) | Galaxy A16 (Termux) | −3 % | ~12 min |
-| Snapdragon 8 Elite (3nm) | Galaxy S26 (Termux) | −2 % | ~12 min |
+| Snapdragon 8 Elite (3nm) | Galaxy S26 Ultra (Termux) | −2 % | ~12 min |
 
 Tous les appareils se situent entre **−2 % et −4 % / 12 min**, nettement inférieur aux données littérature sur Gemma 2 2B (5–12 %), ce qui confirme l'impact majeur de la taille du modèle sur la consommation.
 
@@ -840,7 +840,7 @@ Tous les appareils milieu de gamme testés (11–14 tok/s) se situent dans la zo
 ### 3.10.1 Throttling thermique
 
 - **Exynos 1330 — Galaxy A16** : −19,1 % après ~8 min. Seul cas réel dans le corpus milieu de gamme.
-- **Snapdragon 8 Elite — Galaxy S26** : −17,3 % après ~12 min. Cohérent avec [25] (S24 Ultra).
+- **Snapdragon 8 Elite — Galaxy S26 Ultra** : −17,3 % après ~12 min. Cohérent avec [25] (S24 Ultra).
 - **Tous les autres appareils** : aucun throttling thermique sur 12 min avec le modèle 1B.
 
 **Mitigation** : sur Exynos 1330 (Galaxy A16), limiter les sessions à 5–6 minutes.

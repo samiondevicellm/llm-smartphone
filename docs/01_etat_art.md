@@ -169,7 +169,7 @@ Introduit par Google en 2024, **ML Kit GenAI** est l'API officielle pour accéde
 - Exclut ~95 % du parc Android
 - Exige Android Studio pour le développement
 
-**Cas d'usage dans ce PFE** : solution Google propriétaire, testée sur Galaxy S26.
+**Cas d'usage dans ce PFE** : solution Google propriétaire, testée sur Galaxy S26 Ultra.
 
 ### 4.3 LiteRT (anciennement TensorFlow Lite)
 
@@ -347,7 +347,7 @@ Plusieurs travaux récents mesurent les performances LLM sur appareils réels et
 
 **Systematic Evaluation** [24] (Song et al., 2025) évalue 7 méthodes PTQ sur des modèles de 0,5B à 14B paramètres et établit un seuil critique à 3,5 BPW : en dessous de cette densité de bits, la qualité chute de façon significative. Autre résultat notable : un grand modèle quantifié Q4 dépasse un petit modèle FP16 de taille inférieure. Le format Q4_K_M (~4,5 BPW) utilisé dans ce PFE est au-dessus du seuil critique — validation indépendante du choix de quantification.
 
-**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat clé : le GPU du S24 Ultra subit un arrêt complet de l'inférence GPU par throttling thermique lors des sessions prolongées. Ce phénomène converge avec nos mesures sur Galaxy S26 (Snapdragon 8 Elite) : −17,3 % de dégradation thermique confirmée. Les deux appareils haut de gamme Snapdragon montrent une vulnérabilité thermique sous charge continue absente des appareils milieu de gamme.
+**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat clé : le GPU du S24 Ultra subit un arrêt complet de l'inférence GPU par throttling thermique lors des sessions prolongées. Ce phénomène converge avec nos mesures sur Galaxy S26 Ultra (Snapdragon 8 Elite) : −17,3 % de dégradation thermique confirmée. Les deux appareils haut de gamme Snapdragon montrent une vulnérabilité thermique sous charge continue absente des appareils milieu de gamme.
 
 **PowerInfer-2** [26] (Xue et al., 2024) propose une décomposition en clusters de neurones atteignant 29,2× d'accélération, permettant théoriquement l'exécution d'un modèle 47B sur smartphone. Ces résultats, non encore reproduits de manière indépendante, représentent une direction de recherche avancée.
 

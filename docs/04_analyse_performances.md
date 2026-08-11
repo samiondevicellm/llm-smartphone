@@ -34,7 +34,7 @@ python benchmark.py --model models/gemma-2-2b-it-q4_k_m.gguf --runs 5
 
 ### 2.1 Mise en perspective avec la littérature récente
 
-**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat central : le GPU du S24 Ultra subit un arrêt complet de l'inférence lors des sessions prolongées, contraignant au repli sur CPU — phénomène directement comparable au throttling thermique du Galaxy S26 (Snapdragon 8 Elite) mesuré dans ce PFE (−17,3 % en section 2bis). Les deux flagships Snapdragon partagent donc une vulnérabilité thermique sous charge soutenue qui n'est pas observée sur les appareils milieu de gamme testés (Snapdragon 730/778G, Dimensity 6400, Exynos 1280).
+**LLM Inference at the Edge** [25] (Tummalapalli et al., 2026) mesure un Galaxy S24 Ultra (Snapdragon 8 Gen 3) et un iPhone 16 Pro sous charge soutenue de 20 itérations avec Qwen 2.5 1.5B Q4. Résultat central : le GPU du S24 Ultra subit un arrêt complet de l'inférence lors des sessions prolongées, contraignant au repli sur CPU — phénomène directement comparable au throttling thermique du Galaxy S26 Ultra (Snapdragon 8 Elite) mesuré dans ce PFE (−17,3 % en section 2bis). Les deux flagships Snapdragon partagent donc une vulnérabilité thermique sous charge soutenue qui n'est pas observée sur les appareils milieu de gamme testés (Snapdragon 730/778G, Dimensity 6400, Exynos 1280).
 
 **PalmBench** [22] (Li et al., 2024) adopte une méthodologie similaire au protocole de ce PFE — llama.cpp, mesures prefill/decode répétées, charge soutenue — mais sur appareils Apple et Google Pixel uniquement. L'Exynos 1380 (Galaxy A54) apparaît dans le tableau de référence de Xu et al. [19] avec −25 % de throttling sur 5 min avec Gemma 2 2B ; nos mesures sur Exynos 1330 (Galaxy A16) et Exynos 1280 (Galaxy A26) avec Llama 3.2 1B Q4_K_M (modèle plus léger) montrent respectivement −19,1 % et aucun throttling — cohérent avec l'impact de la taille de modèle sur la charge thermique.
 
@@ -55,7 +55,7 @@ python benchmark.py --model models/gemma-2-2b-it-q4_k_m.gguf --runs 5
 | Snapdragon 778G (6nm) | Galaxy A73 | UserLAnd | 7333 Mo | 58,07 ± 14,09 tok/s | **13,19 ± 0,13 tok/s** | **0,0 % (aucun throttling)** | −893 Mo* | −2 % / 5 min |
 | Snapdragon 778G (6nm) | Galaxy A73 | Termux natif | 7333 Mo | **79,69 ± 1,07 tok/s** | **13,36 ± 0,80 tok/s** | **−104,8 % (artefact governor)**¤ | −469 Mo* | <1 % / 5 min† |
 | Exynos 1330 (5nm) | Galaxy A16 | Termux natif | 5452 Mo | **57,99 ± 7,77 tok/s**† | 14,00 ± 0,42 tok/s¶ | **−19,1 % (throttling thermique réel)**∥ | −634 Mo* | N/A (sysfs inaccessible) |
-| Snapdragon 8 Elite (3nm) | Galaxy S26 | Termux natif | 10240 Mo | **235,65 ± 11,26 tok/s** | **46,68 ± 14,40 tok/s**◊ | **−17,3 % (throttling thermique réel)**◆ | N/A | −2 % / 12 min |
+| Snapdragon 8 Elite (3nm) | Galaxy S26 Ultra | Termux natif | 10240 Mo | **235,65 ± 11,26 tok/s** | **46,68 ± 14,40 tok/s**◊ | **−17,3 % (throttling thermique réel)**◆ | N/A | −2 % / 12 min |
 
 \* Delta RAM négatif — artefact probable : faible RAM libre avant test, le noyau réclame du cache mémoire sous pression pendant l'inférence, ce qui fausse la mesure brute `free -m`.
 
@@ -81,21 +81,21 @@ python benchmark.py --model models/gemma-2-2b-it-q4_k_m.gguf --runs 5
 
 ♦ Throttling Infinix Hot 60i 5G (Termux natif) : protocole rigoureux (warm-up 12,55 → baseline 13,01 tok/s → 9 runs contexte fixe → post-charge 13,10 tok/s). Throttling : −0,7 % (quasi nul). Deux creux ponctuels détectés : run 7 (11,12 tok/s) et run 9 (9,51 tok/s) — artefacts schedutil MediaTek Dimensity 6400, non liés à la thermique (le post-charge revient immédiatement à 13,10 tok/s). Médiane charge : 12,79 tok/s, spread 9,51–13,57 tok/s (4,06 tok/s). **Aucun throttling thermique sur ~12 min de charge continue** — même conclusion que sous UserLAnd (−21,8 %). Comportement notable : contrairement aux Snapdragon 730/778G qui montrent un governor schedutil très agressif sous Termux (creux baseline → accélération apparente post-charge), le Dimensity 6400 présente une baseline stable (13,01) et des oscillations en cours de charge plutôt qu'au démarrage. La variance (±7,20 tok/s en prefill benchmark, creux ponctuels en throttling) est une signature propre au governor MediaTek EAS sous Android. Batterie throttling test : 65 % → 63 % (−2 % / ~12 min).
 
-◊ Decode Galaxy S26 : variance élevée (CV = 30,8 %) due au governor schedutil Snapdragon 8 Elite très agressif. Run 2 anomalie extrême (6,46 tok/s) = crash thermique bref puis récupération immédiate — signature documentée du Snapdragon 8 Elite. Médiane charge : 43,5 tok/s.
+◊ Decode Galaxy S26 Ultra : variance élevée (CV = 30,8 %) due au governor schedutil Snapdragon 8 Elite très agressif. Run 2 anomalie extrême (6,46 tok/s) = crash thermique bref puis récupération immédiate — signature documentée du Snapdragon 8 Elite. Médiane charge : 43,5 tok/s.
 
-◆ Throttling Galaxy S26 : baseline 49,48 tok/s → post-charge 40,92 tok/s → −17,3 %. **Throttling thermique réel confirmé** — 2ème cas du corpus après le Galaxy A16 (−19,1 %). Le Snapdragon 8 Elite génère significativement plus de chaleur que les SoCs milieu de gamme avec le même modèle 1B Q4, car il s'exécute à des fréquences bien plus élevées (235 tok/s prefill vs 36–80 tok/s milieu de gamme). 9 runs individuels : prefill 82–237 tok/s, decode 6,46–51,38 tok/s (oscillations governor extrêmes). Batterie : 37 % → 35 % (−2 % / ~12 min).
+◆ Throttling Galaxy S26 Ultra : baseline 49,48 tok/s → post-charge 40,92 tok/s → −17,3 %. **Throttling thermique réel confirmé** — 2ème cas du corpus après le Galaxy A16 (−19,1 %). Le Snapdragon 8 Elite génère significativement plus de chaleur que les SoCs milieu de gamme avec le même modèle 1B Q4, car il s'exécute à des fréquences bien plus élevées (235 tok/s prefill vs 36–80 tok/s milieu de gamme). 9 runs individuels : prefill 82–237 tok/s, decode 6,46–51,38 tok/s (oscillations governor extrêmes). Batterie : 37 % → 35 % (−2 % / ~12 min).
 
-> Source : mesures propres via `benchmark_complet.sh` — Infinix : UserLAnd/proot (Ubuntu), 30 juin 2026 ; Termux natif, 1er juillet 2026 — Galaxy A26 : Termux natif (Android), 1er juillet 2026 — Galaxy A71 : UserLAnd/proot + Termux natif (Android), 1er juillet 2026 — Galaxy A16 : Termux natif (Android), 1er juillet 2026 — Galaxy A73 : UserLAnd/proot + Termux natif (Android), 1er juillet 2026 — Galaxy S26 : Termux natif (Android), 3 juillet 2026.
+> Source : mesures propres via `benchmark_complet.sh` — Infinix : UserLAnd/proot (Ubuntu), 30 juin 2026 ; Termux natif, 1er juillet 2026 — Galaxy A26 : Termux natif (Android), 1er juillet 2026 — Galaxy A71 : UserLAnd/proot + Termux natif (Android), 1er juillet 2026 — Galaxy A16 : Termux natif (Android), 1er juillet 2026 — Galaxy A73 : UserLAnd/proot + Termux natif (Android), 1er juillet 2026 — Galaxy S26 Ultra : Termux natif (Android), 3 juillet 2026.
 
 ---
 
-## 2ter. Résultats Google on-device — Gemma 4 E2B-it via LiteRT (AI Edge Gallery, Galaxy S26)
+## 2ter. Résultats Google on-device — Gemma 4 E2B-it via LiteRT (AI Edge Gallery, Galaxy S26 Ultra)
 
-> Contexte : la SDK Gemini Nano (ML Kit GenAI) n'étant pas accessible publiquement sur Maven Central, le benchmark Google on-device a été réalisé via **AI Edge Gallery** (application officielle Google, Play Store), qui expose Gemma 4 E2B-it au format LiteRT quantifié (INT4, ~2,6 Go). Le modèle "via AICore" (Gemini Nano) s'est avéré indisponible sur le Galaxy S26 testé (bouton désactivé — AICore non initialisé par le système). LiteRT constitue donc la référence disponible la plus proche de la solution Google on-device.
+> Contexte : la SDK Gemini Nano (ML Kit GenAI) n'étant pas accessible publiquement sur Maven Central, le benchmark Google on-device a été réalisé via **AI Edge Gallery** (application officielle Google, Play Store), qui expose Gemma 4 E2B-it au format LiteRT quantifié (INT4, ~2,6 Go). Le modèle "via AICore" (Gemini Nano) s'est avéré indisponible sur le Galaxy S26 Ultra testé (bouton désactivé — AICore non initialisé par le système). LiteRT constitue donc la référence disponible la plus proche de la solution Google on-device.
 
 ### Protocole
 
-- **Appareil** : Galaxy S26 (Snapdragon 8 Elite, 3nm, 12 Go RAM)
+- **Appareil** : Galaxy S26 Ultra (Snapdragon 8 Elite, 3nm, 12 Go RAM)
 - **App** : Google AI Edge Gallery (Play Store)
 - **Modèle** : Gemma 4 E2B-it (LiteRT INT4, 2,6 Go)
 - **Prompt** : *"Explique-moi le concept d'intelligence artificielle en 3 phrases."*
@@ -125,17 +125,17 @@ Réponse estimée : ~70 tokens (3 phrases) → débit estimé **≈ 11–12 tok/
 
 **Interprétation** : la latence supérieure du modèle LiteRT s'explique par la taille du modèle (2B vs 1B), le format d'inférence (LiteRT CPU vs llama.cpp CPU avec optimisations BLAS), et l'absence d'accélération NPU sur ce chemin. À modèle équivalent (1B), llama.cpp est environ 3–4× plus rapide sur le même SoC. Cela ne disqualifie pas la solution Google — elle bénéficie d'une interface native prête à l'emploi et d'une intégration Play Store — mais confirme que llama.cpp + Termux offre de meilleures performances brutes pour un développeur.
 
-> Source : mesure propre via AI Edge Gallery, Galaxy S26, 3 juillet 2026.
+> Source : mesure propre via AI Edge Gallery, Galaxy S26 Ultra, 3 juillet 2026.
 
 ---
 
 ## 2quater. Benchmark Gemini 2.0 Flash API (cloud) — comparaison avec l'on-device
 
-> Objectif : mesurer la latence de l'API cloud Gemini 2.0 Flash depuis Termux sur le Galaxy S26 (connexion Wi-Fi), en utilisant le même prompt que les tests on-device, pour quantifier le différentiel cloud vs embarqué.
+> Objectif : mesurer la latence de l'API cloud Gemini 2.0 Flash depuis Termux sur le Galaxy S26 Ultra (connexion Wi-Fi), en utilisant le même prompt que les tests on-device, pour quantifier le différentiel cloud vs embarqué.
 
 ### Protocole
 
-- **Appareil** : Galaxy S26, Termux, Wi-Fi
+- **Appareil** : Galaxy S26 Ultra, Termux, Wi-Fi
 - **Modèle** : `gemini-2.0-flash` (API Google AI Studio)
 - **Outil** : `curl` avec `-w "%{time_total}"`
 - **Prompt** : *"Explique-moi le concept d'intelligence artificielle en 3 phrases."*
@@ -152,7 +152,7 @@ Réponse estimée : ~70 tokens (3 phrases) → débit estimé **≈ 11–12 tok/
 
 Le run 1 inclut la négociation DNS + TLS + établissement de connexion TCP. Les runs 2–3 bénéficient de la réutilisation de connexion (keep-alive HTTP/2) et reflètent la latence réseau pure + génération serveur.
 
-### Tableau de synthèse : on-device vs cloud (Galaxy S26, même prompt)
+### Tableau de synthèse : on-device vs cloud (Galaxy S26 Ultra, même prompt)
 
 | Solution | Type | Modèle | Latence (réponse courte) |
 |---|---|---|---|
@@ -169,7 +169,7 @@ L'API cloud est **~20× plus rapide** que la solution LiteRT et **~5–7× plus 
 
 Pour des usages à faible latence avec connectivité garantie, l'API cloud reste imbattable. Pour la confidentialité, l'hors-ligne, ou les environnements à faible débit, l'on-device est la seule option viable.
 
-> Source : mesure propre via `curl` Termux, Galaxy S26, Wi-Fi, 3 juillet 2026. Clé API Google AI Studio (tier gratuit).
+> Source : mesure propre via `curl` Termux, Galaxy S26 Ultra, Wi-Fi, 3 juillet 2026. Clé API Google AI Studio (tier gratuit).
 
 ---
 
@@ -381,7 +381,7 @@ Plusieurs biais doivent être pris en compte dans l'interprétation des résulta
 
 **Taille du corpus** : 4 appareils (5 SoCs) constituent un corpus limité. Les conclusions sur les tendances architecturales (A55 vs A78, 5nm vs 8nm) doivent être considérées comme des indicateurs, pas des lois générales.
 
-**Obstacle Android 15/16 — accès système depuis Termux** : sur le Galaxy S26 (Android 15+), les commandes Termux permettant d'inspecter les packages système (`pm list packages`, `dumpsys`, `find /vendor/lib64`, `ls /sdcard/Android/data/`) sont bloquées par les restrictions de permissions du noyau Android. Conséquence directe : il est impossible de vérifier la présence de l'AICore (moteur Gemini Nano) ou d'accéder aux bibliothèques d'inférence Google directement depuis l'environnement CLI. Cette limitation s'applique également à UserLAnd/proot. **Contournement** : l'accès à Gemini Nano sur Android 15+ requiert impérativement soit une application Android native (ML Kit GenAI via Android Studio), soit une app tierce dédiée (AI Edge Gallery, Google Play Store). Ce point illustre une limite structurelle de l'approche Termux pour les solutions propriétaires : elle couvre bien les frameworks open source (llama.cpp, MLC-LLM) mais ne peut pas interroger les APIs système restreintes d'Android.
+**Obstacle Android 15/16 — accès système depuis Termux** : sur le Galaxy S26 Ultra (Android 15+), les commandes Termux permettant d'inspecter les packages système (`pm list packages`, `dumpsys`, `find /vendor/lib64`, `ls /sdcard/Android/data/`) sont bloquées par les restrictions de permissions du noyau Android. Conséquence directe : il est impossible de vérifier la présence de l'AICore (moteur Gemini Nano) ou d'accéder aux bibliothèques d'inférence Google directement depuis l'environnement CLI. Cette limitation s'applique également à UserLAnd/proot. **Contournement** : l'accès à Gemini Nano sur Android 15+ requiert impérativement soit une application Android native (ML Kit GenAI via Android Studio), soit une app tierce dédiée (AI Edge Gallery, Google Play Store). Ce point illustre une limite structurelle de l'approche Termux pour les solutions propriétaires : elle couvre bien les frameworks open source (llama.cpp, MLC-LLM) mais ne peut pas interroger les APIs système restreintes d'Android.
 
 ---
 

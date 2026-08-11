@@ -405,7 +405,7 @@ python benchmark.py --mock --runs 3
 
 | Appareil | SoC | Decode moyen | Latence réponse courte | Mémoire modèle |
 |---|---|---|---|---|
-| Galaxy S26 | Snapdragon 8 Elite | ~46 tok/s | ~0,6 s | ~800 Mo |
+| Galaxy S26 Ultra | Snapdragon 8 Elite | ~46 tok/s | ~0,6 s | ~800 Mo |
 | Galaxy A73 | Snapdragon 778G | ~13,4 tok/s | ~2,0 s | ~800 Mo |
 | Galaxy A71 | Snapdragon 730 | ~11,5 tok/s | ~2,5 s | ~800 Mo |
 | Infinix Hot 60i | Dimensity 6400 | ~12,7 tok/s | ~2,2 s | ~800 Mo |

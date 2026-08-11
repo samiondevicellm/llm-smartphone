@@ -21,7 +21,7 @@ Mesure la latence et le débit de tokens pour l'analyse de performances du PFE.
 # 2. Synchroniser Gradle
 #    (Android Studio le propose automatiquement)
 
-# 3. Connecter le S26 en USB (activer le mode développeur)
+# 3. Connecter le S26 Ultra en USB (activer le mode développeur)
 #    Paramètres → À propos → Numéro de build (tap 7 fois)
 #    Paramètres → Options développeur → Débogage USB → Activer
 
@@ -61,4 +61,4 @@ Ces métriques alimentent la section "Volet 2 — Gemini Nano" du chapitre d'ana
 - Le modèle Gemini Nano est géré par AICore (système Android) — il est partagé entre toutes les applications et mis en cache automatiquement.
 - La fenêtre de contexte est limitée à ~2 048 tokens par l'API AICore.
 - L'application ne fonctionne **pas** sur émulateur.
-- En cas d'erreur "Gemini Nano non disponible" sur S26 : vérifier que **Google Play Services** est à jour (version 24.20+) et que **Android AI Core** est installé (Settings → Apps → AI Core).
+- En cas d'erreur "Gemini Nano non disponible" sur S26 Ultra : vérifier que **Google Play Services** est à jour (version 24.20+) et que **Android AI Core** est installé (Settings → Apps → AI Core).
