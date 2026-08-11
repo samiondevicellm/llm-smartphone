@@ -164,6 +164,50 @@ done
 
 ---
 
+## Partie A bis — Installation via UserLAnd (proot, sans root)
+
+UserLAnd est une alternative à Termux : une application Android qui simule un environnement Linux complet (Ubuntu) via **proot**, un émulateur léger, toujours sans root. C'est la méthode utilisée pour certains appareils du corpus de ce PFE (voir `06_installation_galaxy_a71.md` et `07_installation_infinix_hot60i.md` pour les notes spécifiques par appareil).
+
+**Pourquoi UserLAnd plutôt que Termux** : isolation plus forte du governor CPU Android (mesures plus stables et reproductibles, voir `04_analyse_performances.md` section 8), au prix de performances brutes légèrement inférieures en prefill.
+
+**Procédure commune :**
+
+1. Ouvrir le Play Store, installer **UserLAnd**
+2. Lancer l'app → choisir **Ubuntu** comme distribution → **Terminal** comme type de session
+3. Créer un nom d'utilisateur et un mot de passe (valables uniquement pour cette session locale)
+4. Premier lancement : 5 à 10 minutes (téléchargement du système Ubuntu, ~200 Mo)
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git cmake build-essential libssl-dev python3 python3-pip wget
+```
+
+| Paquet | Rôle |
+|---|---|
+| `git` | Cloner le code source de llama.cpp depuis GitHub |
+| `cmake` | Générer les fichiers de configuration de compilation |
+| `build-essential` | Compilateur C++ (g++) et outils de base |
+| `libssl-dev` | Bibliothèque de chiffrement requise par certaines dépendances |
+| `python3` + `python3-pip` | Faire tourner le prototype chatbot Python |
+| `wget` | Télécharger le modèle GGUF depuis HuggingFace |
+
+Ensuite, la compilation de llama.cpp suit le même principe qu'en Partie A.3 (`cmake -B build ...`), avec un ajustement du flag `-j` selon la RAM disponible sur l'appareil — voir le tableau ci-dessous.
+
+### Notes spécifiques par appareil (corpus UserLAnd)
+
+Les 4 appareils du corpus testés via UserLAnd et leurs particularités de compilation/exécution :
+
+| Appareil | SoC | RAM dispo | Flag `-j` recommandé | Particularité |
+|---|---|---|---|---|
+| Galaxy A71 | Snapdragon 730 (8nm) | 6–8 Go | `-j1` (tenter `-j2` possible, revenir à `-j1` en cas de crash) | Modèle identique (Llama 3.2 1B Q4_K_M) à conserver pour comparabilité inter-appareils |
+| Galaxy A26 | Exynos 1280 (5nm) | ~5,3 Go | `-j1` uniquement | RAM plus limitée que l'A71/A73 — crash observé au-delà de `-j1` ; voir aussi l'anomalie decode UserLAnd documentée en `04_analyse_performances.md` section 8.3 |
+| Galaxy A73 | Snapdragon 778G (6nm) | ~7,3 Go | `-j1` (tenter `-j2` possible, revenir à `-j1` en cas de crash) | Comportement de compilation non documenté séparément — suivre le protocole standard A71 |
+| Infinix Hot 60i 5G | Dimensity 6400 (6nm) | 8 Go physique + 5 Go swap virtuel | `-j2` généralement stable | GPU Mali-G57 non exploitable par llama.cpp (CPU uniquement) ; **attention** : si `RAM_delta_Mo` dépasse la RAM physique, le swap virtuel (flash) peut s'activer et fausser fortement les temps de decode — surveiller via `free -m` pendant le test |
+
+> Pour l'A26 et l'A73, seul le flag `-j1`/`-j2` est documenté par extrapolation du protocole commun ; aucune session d'installation UserLAnd dédiée n'a été journalisée séparément pour ces deux appareils.
+
+---
+
 ## Partie B — Installation sur PC Linux/Mac (développement)
 
 ### B.1 Linux (Ubuntu/Debian)

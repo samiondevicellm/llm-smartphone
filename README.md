@@ -15,8 +15,6 @@ pfe-llm-smartphone/
 │   ├── 03_tutoriel_mlkit.md                 # Tutoriel ML Kit GenAI (Android Studio)
 │   ├── 04_analyse_performances.md           # Analyse des performances mesurées
 │   ├── 05_retour_critique.md                # Retour critique et recommandations
-│   ├── 06_installation_galaxy_a71.md        # Setup spécifique Galaxy A71
-│   ├── 07_installation_infinix_hot60i.md    # Setup spécifique Infinix Hot 60i
 │   └── chapitre_1_etat_art.md … chapitre_4_retour_critique.md   # Chapitres du mémoire (md + html)
 ├── prototype-cli/
 │   ├── chatbot.py                   # Chatbot CLI interactif (llama-cpp-python)

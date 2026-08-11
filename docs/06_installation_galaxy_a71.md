@@ -3,48 +3,7 @@
 Mémoire de Master — Informatique / Intelligence Artificielle
 LLMs Embarqués sur Smartphone
 
----
-
-## Étape 1 — Installer UserLAnd
-
-UserLAnd est une application Android qui simule un environnement Linux complet (Ubuntu) sans nécessiter le root du téléphone. Elle utilise une technique appelée **proot** — un émulateur léger qui permet de faire tourner des programmes Linux à l'intérieur d'Android.
-
-**Pourquoi c'est nécessaire** : llama.cpp est un programme Linux/Unix, il ne tourne pas nativement sur Android sans cet environnement intermédiaire.
-
-**Procédure** :
-
-1. Ouvrir le Play Store
-2. Rechercher « UserLAnd »
-3. Installer l'application
-4. Lancer l'app → choisir **Ubuntu** comme distribution → **Terminal** comme type de session
-5. Créer un nom d'utilisateur et un mot de passe (valables uniquement pour cette session locale)
-6. Attendre 5 à 10 minutes au premier lancement (téléchargement du système Ubuntu, ~200 Mo)
-
----
-
-## Étape 2 — Mettre à jour le système et installer les dépendances
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-- `apt update` : actualise la liste des paquets disponibles (sans rien installer)
-- `apt upgrade -y` : met à jour les paquets déjà installés vers leur dernière version ; `-y` confirme automatiquement
-
-```bash
-sudo apt install -y git cmake build-essential libssl-dev python3 python3-pip wget
-```
-
-Rôle de chaque paquet :
-
-| Paquet | Rôle |
-|---|---|
-| `git` | Télécharger (cloner) le code source de llama.cpp depuis GitHub |
-| `cmake` | Générer les fichiers de configuration nécessaires à la compilation |
-| `build-essential` | Compilateur C++ (g++) et outils de compilation de base |
-| `libssl-dev` | Bibliothèque de chiffrement requise par certaines dépendances de llama.cpp |
-| `python3` + `python3-pip` | Faire tourner le prototype chatbot Python |
-| `wget` | Télécharger le modèle GGUF depuis HuggingFace |
+> Installation générale via UserLAnd (proot) : voir `02_tutoriel_llamacpp.md`, Partie A bis. Ce document ne couvre que les points spécifiques au Galaxy A71.
 
 ---
 
@@ -92,4 +51,4 @@ Le fichier fait 771 Mo. Il s'agit du même modèle quantifié LLaMA 3.2 1B utili
 
 ---
 
-Une fois ces quatre étapes terminées, le benchmark `llama-bench` peut être lancé selon le même protocole que sur les autres appareils (5 runs, 512 tokens prompt, 128 tokens générés).
+Une fois l'installation UserLAnd (Partie A bis) et ces deux étapes terminées, le benchmark `llama-bench` peut être lancé selon le même protocole que sur les autres appareils (5 runs, 512 tokens prompt, 128 tokens générés).

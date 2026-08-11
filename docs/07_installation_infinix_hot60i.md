@@ -12,41 +12,7 @@ LLMs Embarqués sur Smartphone
 
 ---
 
-## Étape 1 — Installer UserLAnd
-
-UserLAnd est une application Android qui simule un environnement Linux complet (Ubuntu) sans nécessiter le root du téléphone. Elle utilise **proot** — un émulateur léger qui permet de faire tourner des programmes Linux à l'intérieur d'Android.
-
-**Pourquoi c'est nécessaire** : llama.cpp est un programme Linux/Unix, il ne tourne pas nativement sur Android sans cet environnement intermédiaire.
-
-**Procédure** :
-
-1. Ouvrir le Play Store
-2. Rechercher « UserLAnd »
-3. Installer l'application
-4. Lancer l'app → choisir **Ubuntu** comme distribution → **Terminal** comme type de session
-5. Créer un nom d'utilisateur et un mot de passe (valables uniquement pour cette session locale)
-6. Attendre 5 à 10 minutes au premier lancement (téléchargement du système Ubuntu, ~200 Mo)
-
----
-
-## Étape 2 — Mettre à jour le système et installer les dépendances
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-```bash
-sudo apt install -y git cmake build-essential libssl-dev python3 python3-pip wget
-```
-
-| Paquet | Rôle |
-|---|---|
-| `git` | Cloner le code source de llama.cpp depuis GitHub |
-| `cmake` | Générer les fichiers de configuration de compilation |
-| `build-essential` | Compilateur C++ (g++) et outils de base |
-| `libssl-dev` | Bibliothèque de chiffrement requise par certaines dépendances |
-| `python3` + `python3-pip` | Faire tourner le prototype chatbot Python et le script de mesure RAM |
-| `wget` | Télécharger le modèle GGUF depuis HuggingFace |
+> Installation générale via UserLAnd (proot) : voir `02_tutoriel_llamacpp.md`, Partie A bis. Ce document ne couvre que les points spécifiques à l'Infinix Hot 60i 5G.
 
 ---
 
@@ -88,7 +54,7 @@ Même modèle (771 Mo) que sur les autres appareils — indispensable pour que l
 bash ~/benchmark_complet.sh ~/Llama-3.2-1B-Instruct-Q4_K_M.gguf "Infinix_Hot60i_5G"
 ```
 
-Si le script n'est pas encore présent sur l'appareil, le recréer avec `scripts/recreate_command.txt` (copier-coller le contenu dans le terminal UserLAnd).
+Si le script n'est pas encore présent sur l'appareil, le récupérer depuis `scripts/benchmark_complet.sh` (le copier via USB/`scp`, ou le recréer avec `nano ~/benchmark_complet.sh` en collant son contenu).
 
 Le script mesure automatiquement : prefill/decode (5 runs), delta RAM, throttling thermique (run1 vs run2), consommation batterie avant/après. Pour la batterie, comme sous UserLAnd les chemins sysfs sont généralement inaccessibles, le script demandera de saisir manuellement le % batterie affiché par Android avant et après le test.
 
