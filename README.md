@@ -94,9 +94,9 @@ Voir `docs/02_tutoriel_llamacpp.md` pour le tutoriel complet pas-à-pas, et `scr
 
 ## Livrables du PFE
 
-- `etat_art_llm_smartphone_v2.pdf` — État de l'art complet (LaTeX)
-- `timeline_llm_smartphone.pdf` — Chronologie illustrée imprimable
-- `rapport_final_pfe.pdf` — Rapport complet (généré depuis ce dépôt)
+- [`etat_art_llm_smartphone_v2.pdf`](./etat_art_llm_smartphone_v2.pdf) — État de l'art complet (LaTeX)
+- [`timeline_llm_smartphone.pdf`](./timeline_llm_smartphone.pdf) — Chronologie illustrée imprimable
+- `docs/chapitre_1_etat_art.md` → `docs/chapitre_4_retour_critique.md` — Les 4 chapitres du mémoire (rapport complet, pas encore assemblé en un PDF unique)
 - Ce dépôt Git — code + tutoriels reproductibles
 
 ---
