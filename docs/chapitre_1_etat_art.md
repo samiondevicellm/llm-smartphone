@@ -1,4 +1,4 @@
-# État de l'Art — LLMs Embarqués sur Smartphone
+# Chapitre 1 — État de l'Art : LLMs Embarqués sur Smartphone
 
 > **Mémoire PFE** — Intelligence Artificielle, Master Informatique  
 > Rédigé en juillet 2026
@@ -11,7 +11,7 @@ L'inférence de modèles de langage (LLM) directement sur des appareils mobiles 
 
 L'enjeu est considérable : il s'agit de permettre des interactions intelligentes en **temps réel, sans connexion réseau, avec préservation de la vie privée**, sur des appareils dont la RAM dépasse rarement 12 Go et dont la puissance de calcul représente une fraction d'un GPU de datacenter.
 
-Ce document dresse un panorama des solutions disponibles en 2025-2026, compare leurs performances, et analyse les différences architecturales entre exécution purement locale et architectures hybrides edge+cloud.
+Ce chapitre dresse un panorama des solutions disponibles en 2025-2026, compare leurs performances, et analyse les différences architecturales entre exécution purement locale et architectures hybrides edge+cloud.
 
 ---
 
@@ -128,7 +128,7 @@ L'exécution d'un LLM sur smartphone est soumise à des contraintes radicalement
 - 2 048 tokens : ~500 Mo supplémentaires pour un modèle 2B
 - 8 192 tokens : ~2 Go supplémentaires — critique sur 6 Go RAM
 
-**Thermique** : Le throttling thermique est la principale source d'instabilité. Après 5–10 minutes d'inférence intensive, les SoCs réduisent leur fréquence de 20–40 %, dégradant les performances de façon notable (documenté dans l'analyse des performances de ce PFE).
+**Thermique** : Le throttling thermique est la principale source d'instabilité. Après 5–10 minutes d'inférence intensive, les SoCs réduisent leur fréquence de 20–40 %, dégradant les performances de façon notable (documenté dans le chapitre 2 de ce PFE).
 
 **NPU vs CPU** : Les frameworks exploitant le NPU (AICore, LiteRT) peuvent offrir 2–4× le débit CPU à puissance équivalente, mais nécessitent la quantification INT8/INT4 et des formats propriétaires.
 

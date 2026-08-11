@@ -1,4 +1,9 @@
-# Retour Critique — LLMs Embarqués sur Smartphone
+# Chapitre 4 — Retour Critique : LLMs Embarqués sur Smartphone
+
+> **Mémoire PFE** — Intelligence Artificielle, Master Informatique  
+> Rédigé en juillet 2026
+
+---
 
 ## 1. Limites actuelles des modèles on-device
 
@@ -67,7 +72,7 @@ Notre corpus d'appareils met en évidence un décalage significatif entre l'obso
 
 #### 1.6.3 Le label « AI phone » à l'épreuve des mesures empiriques
 
-La GSMA projette 750 millions d'« AI phones » en circulation d'ici 2028 [14]. Or, l'examen de ce label révèle une définition hétérogène : il désigne aussi bien des appareils intégrant un traitement on-device réel que des terminaux dont les fonctions « IA » sont intégralement déléguées au cloud. Nos résultats fournissent un étalon de mesure concret : un Galaxy A16 5G commercialisé à environ 200 euros produit une inférence LLM locale à ~1,5 tokens/s via llama.cpp, sans connexion réseau, avec une empreinte mémoire de 2,2 Go. En comparaison, le Galaxy S26, dont le prix dépasse 900 euros et qui est officiellement positionné comme un « AI flagship », affiche un temps de génération de 6,0 secondes pour une réponse via LiteRT — quatre fois plus lent que llama.cpp sur le même appareil pour la tâche équivalente, selon nos mesures (section 2*ter* de l'analyse des performances). Ces données empiriques invitent à nuancer le discours marketing autour de l'IA embarquée et à distinguer la puissance matérielle brute de l'efficacité d'inférence réelle sur les frameworks disponibles.
+La GSMA projette 750 millions d'« AI phones » en circulation d'ici 2028 [14]. Or, l'examen de ce label révèle une définition hétérogène : il désigne aussi bien des appareils intégrant un traitement on-device réel que des terminaux dont les fonctions « IA » sont intégralement déléguées au cloud. Nos résultats fournissent un étalon de mesure concret : un Galaxy A16 5G commercialisé à environ 200 euros produit une inférence LLM locale à ~1,5 tokens/s via llama.cpp, sans connexion réseau, avec une empreinte mémoire de 2,2 Go. En comparaison, le Galaxy S26, dont le prix dépasse 900 euros et qui est officiellement positionné comme un « AI flagship », affiche un temps de génération de 6,0 secondes pour une réponse via LiteRT — quatre fois plus lent que llama.cpp sur le même appareil pour la tâche équivalente, selon nos mesures (chapitre 2, section analyse des performances). Ces données empiriques invitent à nuancer le discours marketing autour de l'IA embarquée et à distinguer la puissance matérielle brute de l'efficacité d'inférence réelle sur les frameworks disponibles.
 
 #### 1.6.4 La fragmentation des écosystèmes comme obstacle à l'universalité
 

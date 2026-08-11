@@ -1,4 +1,61 @@
-# Retour Critique — LLMs Embarqués sur Smartphone
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 4 — Retour Critique : LLMs Embarqués sur Smartphone</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+  @page { size: A4; margin: 30mm 25mm 20mm 25mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    max-width: 170mm;
+    margin: 0 auto;
+    padding: 20mm 0 30mm 0;
+    background: #fff;
+  }
+  h1 { font-size: 18pt; text-align: center; margin: 0 0 0.5em 0; line-height: 1.3; }
+  h2 { font-size: 14pt; border-bottom: 1.5px solid #444; padding-bottom: 3px; margin: 2em 0 0.8em 0; }
+  h3 { font-size: 12pt; font-weight: bold; margin: 1.5em 0 0.5em 0; }
+  h4 { font-size: 12pt; font-weight: bold; font-style: italic; margin: 1.2em 0 0.4em 0; }
+  p { text-align: justify; margin: 0.7em 0; }
+  blockquote { border-left: 3px solid #888; padding: 0.3em 0 0.3em 1em; margin: 1em 0 1em 0.5em; color: #333; font-style: italic; }
+  blockquote p { text-align: left; margin: 0.3em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 10pt; }
+  th, td { border: 1px solid #888; padding: 4px 8px; text-align: left; vertical-align: top; }
+  th { background: #e8e8e8; font-weight: bold; }
+  tr:nth-child(even) { background: #f8f8f8; }
+  code { font-family: 'Courier New', Courier, monospace; font-size: 9pt; background: #f0f0f0; padding: 1px 4px; border-radius: 2px; }
+  pre { background: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; padding: 10px 12px; overflow-x: auto; font-size: 9pt; margin: 1em 0; line-height: 1.4; }
+  pre code { background: none; padding: 0; font-size: 9pt; }
+  hr { border: none; border-top: 1px solid #bbb; margin: 2em 0; }
+  a { color: #1a0dab; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { margin: 0.5em 0 0.5em 1.5em; padding: 0; }
+  li { margin: 0.25em 0; text-align: justify; }
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    pre { page-break-inside: avoid; }
+    h2, h3 { page-break-after: avoid; }
+    table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/plain" id="md">
+# Chapitre 4 — Retour Critique : LLMs Embarqués sur Smartphone
+
+> **Mémoire PFE** — Intelligence Artificielle, Master Informatique
+> Rédigé en juillet 2026
+
+---
 
 ## 1. Limites actuelles des modèles on-device
 
@@ -67,7 +124,7 @@ Notre corpus d'appareils met en évidence un décalage significatif entre l'obso
 
 #### 1.6.3 Le label « AI phone » à l'épreuve des mesures empiriques
 
-La GSMA projette 750 millions d'« AI phones » en circulation d'ici 2028 [14]. Or, l'examen de ce label révèle une définition hétérogène : il désigne aussi bien des appareils intégrant un traitement on-device réel que des terminaux dont les fonctions « IA » sont intégralement déléguées au cloud. Nos résultats fournissent un étalon de mesure concret : un Galaxy A16 5G commercialisé à environ 200 euros produit une inférence LLM locale à ~1,5 tokens/s via llama.cpp, sans connexion réseau, avec une empreinte mémoire de 2,2 Go. En comparaison, le Galaxy S26, dont le prix dépasse 900 euros et qui est officiellement positionné comme un « AI flagship », affiche un temps de génération de 6,0 secondes pour une réponse via LiteRT — quatre fois plus lent que llama.cpp sur le même appareil pour la tâche équivalente, selon nos mesures (section 2*ter* de l'analyse des performances). Ces données empiriques invitent à nuancer le discours marketing autour de l'IA embarquée et à distinguer la puissance matérielle brute de l'efficacité d'inférence réelle sur les frameworks disponibles.
+La GSMA projette 750 millions d'« AI phones » en circulation d'ici 2028 [14]. Or, l'examen de ce label révèle une définition hétérogène : il désigne aussi bien des appareils intégrant un traitement on-device réel que des terminaux dont les fonctions « IA » sont intégralement déléguées au cloud. Nos résultats fournissent un étalon de mesure concret : un Galaxy A16 5G commercialisé à environ 200 euros produit une inférence LLM locale à ~14 tokens/s via llama.cpp, sans connexion réseau, avec une empreinte mémoire de 2,2 Go. En comparaison, le Galaxy S26, dont le prix dépasse 900 euros et qui est officiellement positionné comme un « AI flagship », affiche un temps de génération de 6,0 secondes pour une réponse via LiteRT — quatre fois plus lent que llama.cpp sur le même appareil pour la tâche équivalente. Ces données empiriques invitent à nuancer le discours marketing autour de l'IA embarquée et à distinguer la puissance matérielle brute de l'efficacité d'inférence réelle sur les frameworks disponibles.
 
 #### 1.6.4 La fragmentation des écosystèmes comme obstacle à l'universalité
 
@@ -125,7 +182,7 @@ Architecture MCP on-device envisageable :
 def route_request(user_input: str, llm) -> str:
     # Le LLM embarqué classe l'intention (tâche simple)
     intent = classify_intent(user_input, llm)  # "calendrier", "notes", "question"
-    
+
     if intent == "calendrier":
         return calendar_tool.handle(user_input)  # Logique déterministe
     elif intent == "question":
@@ -182,10 +239,10 @@ L'architecture la plus pragmatique n'est ni entièrement locale ni entièrement 
 def should_use_cloud(request: str, context_length: int) -> bool:
     # Basculer vers le cloud si :
     return any([
-        context_length > 1500,          # Contexte trop long pour le local
-        contains_complex_reasoning(request),  # Maths, logique formelle
-        requires_recent_knowledge(request),   # Infos récentes (post-entraînement)
-        user_prefers_speed and is_online(),   # Préférence vitesse + connecté
+        context_length > 1500,                    # Contexte trop long pour le local
+        contains_complex_reasoning(request),       # Maths, logique formelle
+        requires_recent_knowledge(request),        # Infos récentes (post-entraînement)
+        user_prefers_speed and is_online(),        # Préférence vitesse + connecté
     ])
 ```
 
@@ -239,3 +296,14 @@ L'architecture hybride — modèle local pour les tâches courantes, cloud pour 
 - [25] Tummalapalli et al. (2026). *LLM Inference at the Edge: Mobile, NPU, and GPU Performance Efficiency Trade-offs Under Sustained Load*. arXiv:2603.23640.
 - [26] Xue et al. (2024). *PowerInfer-2: Fast Large Language Model Inference on a Smartphone*. arXiv:2406.06282.
 - [27] Yadav, M. & Bhargavi, P. (2024). *Optimizing LLMs Using Quantization For Mobile Execution*. ICT4SD 2025, Springer LNNS. arXiv:2512.06490.
+</script>
+<script>
+  marked.setOptions({ gfm: true, breaks: false });
+  const raw = document.getElementById('md').textContent;
+  document.getElementById('content').innerHTML = marked.parse(raw);
+  document.querySelectorAll('pre code').forEach(function(el) {
+    hljs.highlightElement(el);
+  });
+</script>
+</body>
+</html>

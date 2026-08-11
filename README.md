@@ -10,26 +10,30 @@
 ```
 pfe-llm-smartphone/
 ├── docs/
-│   ├── 01_etat_art.md               # État de l'art complet (voir aussi le PDF)
-│   ├── 02_tutoriel_llamacpp.md      # Tutoriel llama.cpp Android/Termux + PC
-│   ├── 03_tutoriel_mlkit.md         # Tutoriel ML Kit GenAI (Android Studio)
-│   ├── 04_analyse_performances.md   # Analyse des performances mesurées
-│   └── 05_retour_critique.md        # Retour critique et recommandations
+│   ├── 01_etat_art.md                       # État de l'art complet (voir aussi le PDF)
+│   ├── 02_tutoriel_llamacpp.md              # Tutoriel llama.cpp Android/Termux + PC
+│   ├── 03_tutoriel_mlkit.md                 # Tutoriel ML Kit GenAI (Android Studio)
+│   ├── 04_analyse_performances.md           # Analyse des performances mesurées
+│   ├── 05_retour_critique.md                # Retour critique et recommandations
+│   ├── 06_installation_galaxy_a71.md        # Setup spécifique Galaxy A71
+│   ├── 07_installation_infinix_hot60i.md    # Setup spécifique Infinix Hot 60i
+│   └── chapitre_1_etat_art.md … chapitre_4_retour_critique.md   # Chapitres du mémoire (md + html)
 ├── prototype-cli/
 │   ├── chatbot.py                   # Chatbot CLI interactif (llama-cpp-python)
 │   ├── benchmark.py                 # Script de mesure latence/mémoire
 │   ├── utils.py                     # Fonctions utilitaires
 │   └── requirements.txt             # Dépendances Python
-├── prototype-android/               # Squelette app Android (ML Kit GenAI)
+├── prototype-android/                # App Android (ML Kit GenAI / Gemini Nano)
 │   └── app/src/main/
-│       ├── java/com/pfe/llmchat/    # Code Kotlin
+│       ├── java/com/pfe/llmchat/    # Code Kotlin (MainActivity, LlmViewModel, ChatAdapter)
 │       └── res/layout/              # Layouts XML
-├── benchmarks/
-│   ├── run_benchmark.sh             # Script benchmark complet
-│   └── results/                     # Résultats JSON des benchmarks
-└── scripts/
-    ├── setup_termux.sh              # Installation automatique Android/Termux
-    └── download_model.sh            # Téléchargement modèles GGUF
+├── scripts/
+│   ├── setup_test_termux.sh         # Installation llama.cpp sur Termux (paramétrable par appareil)
+│   ├── download_model.sh            # Téléchargement d'un modèle GGUF seul
+│   ├── benchmark_complet.sh         # Benchmark complet (latence, RAM, batterie, throttling)
+│   └── throttling_rigoureux.sh      # Protocole thermique rigoureux (warm-up + charge 5 min)
+└── .github/workflows/
+    └── build-apk.yml                # CI : build automatique de l'APK sur push
 ```
 
 ---
@@ -68,11 +72,14 @@ python chatbot.py --mock
 ## Démarrage rapide — Android (Termux)
 
 ```bash
-# Copier et exécuter le script d'installation
-bash scripts/setup_termux.sh
+# Installation seule
+bash scripts/setup_test_termux.sh <nom_appareil>
+
+# Installation + benchmark automatique
+bash scripts/setup_test_termux.sh <nom_appareil> --with-benchmark
 ```
 
-Voir `docs/02_tutoriel_llamacpp.md` pour le tutoriel complet pas-à-pas.
+Voir `docs/02_tutoriel_llamacpp.md` pour le tutoriel complet pas-à-pas, et `scripts/throttling_rigoureux.sh` pour le protocole de mesure thermique détaillé.
 
 ---
 

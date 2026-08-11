@@ -1,6 +1,135 @@
-# État de l'Art — LLMs Embarqués sur Smartphone
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 1 — État de l'Art : LLMs Embarqués sur Smartphone</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+  @page { size: A4; margin: 30mm 25mm 20mm 25mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    max-width: 170mm;
+    margin: 0 auto;
+    padding: 20mm 0 30mm 0;
+    background: #fff;
+  }
+  h1 {
+    font-size: 18pt;
+    text-align: center;
+    margin: 0 0 0.5em 0;
+    line-height: 1.3;
+  }
+  h2 {
+    font-size: 14pt;
+    border-bottom: 1.5px solid #444;
+    padding-bottom: 3px;
+    margin: 2em 0 0.8em 0;
+  }
+  h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin: 1.5em 0 0.5em 0;
+  }
+  h4 {
+    font-size: 12pt;
+    font-weight: bold;
+    font-style: italic;
+    margin: 1.2em 0 0.4em 0;
+  }
+  p {
+    text-align: justify;
+    margin: 0.7em 0;
+  }
+  blockquote {
+    border-left: 3px solid #888;
+    padding: 0.3em 0 0.3em 1em;
+    margin: 1em 0 1em 0.5em;
+    color: #333;
+    font-style: italic;
+  }
+  blockquote p { text-align: left; margin: 0.3em 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 10pt;
+  }
+  th, td {
+    border: 1px solid #888;
+    padding: 4px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #e8e8e8;
+    font-weight: bold;
+  }
+  tr:nth-child(even) { background: #f8f8f8; }
+  code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    background: #f0f0f0;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  pre {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    font-size: 9pt;
+    margin: 1em 0;
+    line-height: 1.4;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 9pt;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #bbb;
+    margin: 2em 0;
+  }
+  a { color: #1a0dab; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol {
+    margin: 0.5em 0 0.5em 1.5em;
+    padding: 0;
+  }
+  li {
+    margin: 0.25em 0;
+    text-align: justify;
+  }
+  .cover-meta {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+    font-size: 11pt;
+    margin-bottom: 3em;
+  }
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    pre { page-break-inside: avoid; }
+    h2, h3 { page-break-after: avoid; }
+    table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/plain" id="md">
+# Chapitre 1 — État de l'Art : LLMs Embarqués sur Smartphone
 
-> **Mémoire PFE** — Intelligence Artificielle, Master Informatique  
+> **Mémoire PFE** — Intelligence Artificielle, Master Informatique
 > Rédigé en juillet 2026
 
 ---
@@ -11,7 +140,7 @@ L'inférence de modèles de langage (LLM) directement sur des appareils mobiles 
 
 L'enjeu est considérable : il s'agit de permettre des interactions intelligentes en **temps réel, sans connexion réseau, avec préservation de la vie privée**, sur des appareils dont la RAM dépasse rarement 12 Go et dont la puissance de calcul représente une fraction d'un GPU de datacenter.
 
-Ce document dresse un panorama des solutions disponibles en 2025-2026, compare leurs performances, et analyse les différences architecturales entre exécution purement locale et architectures hybrides edge+cloud.
+Ce chapitre dresse un panorama des solutions disponibles en 2025-2026, compare leurs performances, et analyse les différences architecturales entre exécution purement locale et architectures hybrides edge+cloud.
 
 ---
 
@@ -115,7 +244,7 @@ Ces modèles sont inaccessibles sur Android et ne seront pas traités dans ce PF
 | Gemini Nano 2 | ~2 B (est.) | N/A (AICore) | Géré AICore | 20–60** | ~72 % | Bon | Propriétaire |
 | SmolLM 2 1.7B | 1,7 B | 1,0 Go | 3 Go | 20–50 | 40 % | Moyen | Apache 2.0 |
 
-\* Decode en tokens/s sur un Snapdragon 8 Gen 2 ou équivalent, via llama.cpp (sauf mention).  
+\* Decode en tokens/s sur un Snapdragon 8 Gen 2 ou équivalent, via llama.cpp (sauf mention).
 \*\* Estimation basée sur les benchmarks Google ; mesures exactes dépendantes de l'AICore.
 
 ### 3.2 Contraintes matérielles
@@ -128,7 +257,7 @@ L'exécution d'un LLM sur smartphone est soumise à des contraintes radicalement
 - 2 048 tokens : ~500 Mo supplémentaires pour un modèle 2B
 - 8 192 tokens : ~2 Go supplémentaires — critique sur 6 Go RAM
 
-**Thermique** : Le throttling thermique est la principale source d'instabilité. Après 5–10 minutes d'inférence intensive, les SoCs réduisent leur fréquence de 20–40 %, dégradant les performances de façon notable (documenté dans l'analyse des performances de ce PFE).
+**Thermique** : Le throttling thermique est la principale source d'instabilité. Après 5–10 minutes d'inférence intensive, les SoCs réduisent leur fréquence de 20–40 %, dégradant les performances de façon notable (documenté dans le chapitre 2 de ce PFE).
 
 **NPU vs CPU** : Les frameworks exploitant le NPU (AICore, LiteRT) peuvent offrir 2–4× le débit CPU à puissance équivalente, mais nécessitent la quantification INT8/INT4 et des formats propriétaires.
 
@@ -388,3 +517,14 @@ L'exécution de LLMs sur smartphone est passée en 2023–2025 du statut de curi
 - [25] Tummalapalli et al. (2026). *LLM Inference at the Edge: Mobile, NPU, and GPU Performance Efficiency Trade-offs Under Sustained Load*. arXiv:2603.23640.
 - [26] Xue et al. (2024). *PowerInfer-2: Fast Large Language Model Inference on a Smartphone*. arXiv:2406.06282.
 - [27] Yadav, M. & Bhargavi, P. (2024). *Optimizing LLMs Using Quantization For Mobile Execution*. ICT4SD 2025, Springer LNNS. arXiv:2512.06490.
+</script>
+<script>
+  marked.setOptions({ gfm: true, breaks: false });
+  const raw = document.getElementById('md').textContent;
+  document.getElementById('content').innerHTML = marked.parse(raw);
+  document.querySelectorAll('pre code').forEach(function(el) {
+    hljs.highlightElement(el);
+  });
+</script>
+</body>
+</html>

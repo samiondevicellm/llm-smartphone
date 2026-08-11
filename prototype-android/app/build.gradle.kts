@@ -34,18 +34,21 @@ android {
         jvmTarget = "17"
     }
 }
+
 dependencies {
-    // MediaPipe LLM Inference — Gemma on-device (remplace ML Kit GenAI)
-    implementation("com.google.mediapipe:tasks-genai:0.10.14")
+    // ML Kit GenAI — accès à Gemini Nano via AICore
+    implementation("com.google.mlkit:genai-common:1.0.0-beta1")
+    implementation("com.google.mlkit:genai-inference:1.0.0-beta1")
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
     // UI
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.activity:activity-ktx:1.8.0")
 }
